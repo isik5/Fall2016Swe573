@@ -1,0 +1,15 @@
+version: '2'
+services:
+    web:
+        build: .
+        volumes:
+          - .:/code
+        command: /usr/local/bin/gunicorn -R --access-logfile - --error-logfile - --chdir tracker tracker.wsgi:application -w 2 -b :8000 --reload
+        ports:
+            - "8001:8000"
+        environment:
+            - DJANGO_SETTINGS_MODULE=tracker.settings
+            - PYTHONDONTWRITEBYTECODE=1
+            - PYTHONUNBUFFERED=true
+#        depends_on:
+#            - db

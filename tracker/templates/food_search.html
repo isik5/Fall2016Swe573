@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% block title %}
+    <title>CalorieWatcher Food Search</title>
+{% endblock %}
+{% block css %}
+    {{ block.super }}
+{% endblock %}
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">submit</button>
+    </form>
+    <hr>
+    {% if food_search_results %}
+        <div>
+            <p>Number of results <span><b>{{ food_search_results.list.sr }}</b></span></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox"></th>
+                        <th>name</th>
+                        <th>group</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in food_search_results.list.item %}
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>{{ f.name }}</td>
+                            <td>{{ f.group }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

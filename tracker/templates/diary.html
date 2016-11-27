@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block title %}
+    <title>CalorieWatcher Diary</title>
+{% endblock %}
+{% block css %}
+    {{ block.super }}
+{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <ol>
+    {% for food in food_list %}
+        <li>{{ food }}</li>
+    {% endfor %}
+    </ol>
+{% endblock %}
