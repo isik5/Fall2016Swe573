@@ -1,5 +1,5 @@
 from django.shortcuts import (render_to_response, render)
-from .forms import FoodSearchForm
+from .forms import FoodSearchForm, MyRegistrationForm
 from caloriewatcher import fcd_api
 from django.http import HttpResponseRedirect
 from django.contrib import auth
@@ -69,18 +69,18 @@ def logout(request):
 
 def register_user(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = MyRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/accounts/register_success')
 
 
     else:
-        form = UserCreationForm()
+        form = MyRegistrationForm()
     args = {}
     args.update(csrf(request))
 
-    args['form'] = form
+    args['form'] = MyRegistrationForm()
 
     return render_to_response('register.html', args)
 
