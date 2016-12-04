@@ -1,6 +1,72 @@
 {% load static %}
-{% block sidebar %}
-{% endblock %}
-{% if messages %}
-{% for message in messages %} {{ message }} {% endfor %}
-{% endif %} {% block content %}This is the content area{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}My Base Template{% endblock %}</title>
+
+    <style type="text/css">
+        body {
+          text-align: center;
+        }
+
+        #page {
+            width: 1260px;
+            text-align: left;
+            margin: 10px auto 20px auto;
+            background-color: #0c0c0c;
+        }
+
+        #sidebar {
+          float: left;
+          width: 200px;
+          border: 1px solid #000;
+        }
+
+        #content {
+            float: left;
+            width: 460px;
+            height: 400px;
+            border: 1px solid #f00;
+            padding: 20px;
+            line-height:40px;
+            text-align: left;
+        }
+
+        </style>
+
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}css/default.css" >
+
+    <script src="{% get_static_prefix %}js/jquery-2.0.0.min.js"></script>
+    <script src="{% get_static_prefix %}js/ajax.js"></script>
+
+
+</head>
+
+<body>
+	<div id="page">
+
+    <div id="sidebar">
+        {% block sidebar %}
+        <ul>
+            <li><a href="/diary">Diary</a></li>
+            <li><a href="/food-search/">Food Search</a></li>
+        </ul>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+
+	{% if messages %}
+	<ul class="messages">
+	    {% for message in messages %}
+	    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
+
+        {% block content %}This is the content area{% endblock %}
+
+	</div>
+
+</body>
+</html>
