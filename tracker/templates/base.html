@@ -1,0 +1,6 @@
+{% load static %}
+{% block sidebar %}
+{% endblock %}
+{% if messages %}
+{% for message in messages %} {{ message }} {% endfor %}
+{% endif %} {% block content %}This is the content area{% endblock %}
