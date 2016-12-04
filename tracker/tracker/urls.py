@@ -15,12 +15,27 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from caloriewatcher import views
-
+from django.conf import settings
 urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^diary/$', views.diary, name='diary'),
     url(r'^food-search/$', views.food_search, name='food_search'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^login-Register/$', views.login, name='login'),
+
+    # user auth urls
+    url(r'^accounts/login/$', views.login, name='login'),
+    url(r'^accounts/auth/$', views.auth_view, name='auth_view'),
+    url(r'^accounts/logout/$', views.logout, name='logout'),
+    url(r'^accounts/loggedin/$', views.loggedin, name='loggedin'),
+    url(r'^accounts/invalid/$', views.invalid_login, name='invalid_login'),
+    url(r'^accounts/register/$', views.register_user, name='register_user'),
+    url(r'^accounts/register_success/$', views.register_success, name='register_success'),
 ]
+
+if not settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+    urlpatterns += staticfiles_urlpatterns()
