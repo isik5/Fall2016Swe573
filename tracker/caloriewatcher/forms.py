@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from caloriewatcher.models import UserProfile
 
 class FoodSearchForm(forms.Form):
     kw = forms.CharField(
@@ -27,3 +28,9 @@ class MyRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+class UserProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ('height', 'weight', 'born', 'gender')

@@ -1,11 +1,12 @@
 from django.shortcuts import (render_to_response, render)
-from .forms import FoodSearchForm, MyRegistrationForm
+from .forms import FoodSearchForm, MyRegistrationForm, UserProfileForm
 from caloriewatcher import fcd_api
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.views import logout
 from django.template.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     ctx = {"welcome_text": "conim benim hosgelmissen"}
@@ -86,3 +87,23 @@ def register_user(request):
 
 def register_success(request):
     return render_to_response('register_success.html')
+
+
+@login_required
+def user_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/accounts/loggedin')
+    else:
+        user = request.user
+        profile = user.profile
+        form = UserProfileForm(instance=profile)
+
+    args = {}
+    args.update(csrf(request))
+
+    args['form'] = form
+
+    return render_to_response('profile.html', args)

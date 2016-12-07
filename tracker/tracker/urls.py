@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^food-search/$', views.food_search, name='food_search'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login-Register/$', views.login, name='login'),
+    url(r'^profile/$', views.user_profile, name='user_profile'),
+   # url(r'^accounts/', include(user_profile.urls)),
 
     # user auth urls
     url(r'^accounts/login/$', views.login, name='login'),
