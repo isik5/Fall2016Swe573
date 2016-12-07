@@ -16,25 +16,30 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from caloriewatcher import views
+import caloriewatcher.views
+import userprofile.views
 from django.conf import settings
+
+
+
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
-    url(r'^diary/$', views.diary, name='diary'),
-    url(r'^food-search/$', views.food_search, name='food_search'),
+    url(r'^$', caloriewatcher.views.home, name='home'),
+    url(r'^diary/$', caloriewatcher.views.diary, name='diary'),
+    url(r'^food-search/$', caloriewatcher.views.food_search, name='food_search'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^login-Register/$', views.login, name='login'),
-    url(r'^profile/$', views.user_profile, name='user_profile'),
-   # url(r'^accounts/', include(user_profile.urls)),
+    url(r'^login-Register/$', caloriewatcher.views.login, name='login'),
+    url(r'^profile/$', userprofile.views.user_profile, name='user_profile'),
+    #url(r'^accounts/', include(user_profile.urls)),
 
     # user auth urls
-    url(r'^accounts/login/$', views.login, name='login'),
-    url(r'^accounts/auth/$', views.auth_view, name='auth_view'),
-    url(r'^accounts/logout/$', views.logout, name='logout'),
-    url(r'^accounts/loggedin/$', views.loggedin, name='loggedin'),
-    url(r'^accounts/invalid/$', views.invalid_login, name='invalid_login'),
-    url(r'^accounts/register/$', views.register_user, name='register_user'),
-    url(r'^accounts/register_success/$', views.register_success, name='register_success'),
+    url(r'^accounts/login/$', caloriewatcher.views.login, name='login'),
+    url(r'^accounts/auth/$', caloriewatcher.views.auth_view, name='auth_view'),
+    url(r'^accounts/logout/$', caloriewatcher.views.logout, name='logout'),
+    url(r'^accounts/loggedin/$', caloriewatcher.views.loggedin, name='loggedin'),
+    url(r'^accounts/invalid/$', caloriewatcher.views.invalid_login, name='invalid_login'),
+    url(r'^accounts/register/$', caloriewatcher.views.register_user, name='register_user'),
+    url(r'^accounts/register_success/$', caloriewatcher.views.register_success, name='register_success'),
+    url(r'^accounts/profile/$', userprofile.views.user_profile, name='user_profile'),
 ]
 
 if not settings.DEBUG:

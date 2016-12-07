@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'caloriewatcher',
+    'userprofile',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -72,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tracker.wsgi.application'
+
 
 
 # Database
@@ -112,3 +113,6 @@ STATIC_URL = '/static/'
 
 
 FCD_API_KEY = os.getenv("FCD_API_KEY")
+
+AUTH_PROFILE_MODULE = 'userprofile.UserProfile'
+
