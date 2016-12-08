@@ -1,5 +1,6 @@
 from django.shortcuts import (render_to_response, render)
 from .forms import FoodSearchForm, MyRegistrationForm
+from userprofile.forms import UserProfileForm
 from caloriewatcher import fcd_api
 from django.http import HttpResponseRedirect
 from django.contrib import auth
@@ -7,6 +8,7 @@ from django.contrib.auth.views import logout
 from django.template.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+
 
 def home(request):
     ctx = {"welcome_text": "conim benim hosgelmissen"}
@@ -57,35 +59,45 @@ def auth_view(request):
     else:
         return HttpResponseRedirect('/accounts/invalid')
 
+
 def loggedin(request):
     return render_to_response('loggedin.html',
                               {'full_name': request.user.username})
 
+
 def invalid_login(request):
     return render_to_response('invalid_loggedin.html')
+
 
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
 
+@login_required()
 def register_user(request):
     if request.method == 'POST':
-        form = MyRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
+        user_form = MyRegistrationForm(instance=request.user, data=request.POST)
+        profile_form = UserProfileForm(instance=request.user.profile, data=request.POST,files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+
             return HttpResponseRedirect('/accounts/register_success')
 
-
     else:
-        form = MyRegistrationForm()
+        user_form = MyRegistrationForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.profile)
     args = {}
     args.update(csrf(request))
 
-    args['form'] = MyRegistrationForm()
+    args['user_form'] = user_form
+    args['profile_form'] = profile_form
 
     return render_to_response('register.html', args)
+
 
 def register_success(request):
     return render_to_response('register_success.html')
 
-
+def profile_update(request):
+    return render_to_response('profile_update.html')
