@@ -8,6 +8,8 @@ from django.contrib.auth.views import logout
 from django.template.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from .models import *
+from userprofile.models import UserProfile
 
 
 def home(request):
@@ -78,9 +80,38 @@ def register_user(request):
     if request.method == 'POST':
         user_form = MyRegistrationForm(instance=request.user, data=request.POST)
         profile_form = UserProfileForm(instance=request.user.profile, data=request.POST,files=request.FILES)
+        # Check if forms are valid
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
+            user_info = user_form.cleaned_data
+            profile_info = profile_form.cleaned_data
+            born = profile_info['born']
+            gender = profile_info['gender']
+            height = profile_info['height']
+            weight = profile_info['weight']
+
+            username = user_info['username']
+            email = user_info['email']
+            password = user_info['password1']
+
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password)
+            user.save()
+            user.set_password(password)
+            user.save()
+
+            profile = UserProfile.objects.create(user=user,
+                                             born=born, gender=gender,
+                                             height=height, weight=weight)
+            profile.save()
+
+            new_user = authenticate(username=user_form.cleaned_data['username'],
+                                    password=user_form.cleaned_data['password'],
+                                    )
+            login(request, new_user)
+
+            #return HttpResponseRedirect(reverse('health_tracker:main'))
 
             return HttpResponseRedirect('/accounts/register_success')
 
@@ -99,5 +130,3 @@ def register_user(request):
 def register_success(request):
     return render_to_response('register_success.html')
 
-def profile_update(request):
-    return render_to_response('profile_update.html')

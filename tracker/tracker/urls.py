@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^accounts/register/$', caloriewatcher.views.register_user, name='register_user'),
     url(r'^accounts/register_success/$', caloriewatcher.views.register_success, name='register_success'),
     url(r'^accounts/profile/$', userprofile.views.user_profile, name='user_profile'),
-    url(r'^accounts/profile_update/$', caloriewatcher.views.profile_update, name='profile_update'),
+    url(r'^accounts/profile_update/$', userprofile.views.profile_update, name='profile_update'),
 ]
 
 if not settings.DEBUG:
