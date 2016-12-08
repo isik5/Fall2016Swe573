@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login-Register/$', caloriewatcher.views.login, name='login'),
     url(r'^profile/$', userprofile.views.user_profile, name='user_profile'),
-    #url(r'^accounts/', include(user_profile.urls)),
+
 
     # user auth urls
     url(r'^accounts/login/$', caloriewatcher.views.login, name='login'),
@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^accounts/register/$', caloriewatcher.views.register_user, name='register_user'),
     url(r'^accounts/register_success/$', caloriewatcher.views.register_success, name='register_success'),
     url(r'^accounts/profile/$', userprofile.views.user_profile, name='user_profile'),
+    url(r'^accounts/profile_update/$', caloriewatcher.views.profile_update, name='profile_update'),
 ]
 
 if not settings.DEBUG:

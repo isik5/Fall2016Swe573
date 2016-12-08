@@ -10,7 +10,8 @@ def user_profile(request):
         form = UserProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/accounts/loggedin')
+            #return HttpResponseRedirect('/accounts/loggedin')
+        return HttpResponseRedirect('/accounts/profile_update')
     else:
         user = request.user
         profile = user.profile

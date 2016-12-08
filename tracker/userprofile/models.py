@@ -1,14 +1,25 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
-    height = models.IntegerField('user height in cm', null=True)
-    weight = models.FloatField('user weight in kg', null=True)
-    born = models.DateTimeField('mm/yyyy', null=True)
-    gender = models.CharField('user gender in 1 letter', max_length=1)
+    user = models.OneToOneField(User, related_name="profile")
+    height = models.FloatField('Height in cm', null=True)
+    weight = models.IntegerField('Weight in kg', null=True)
+    born = models.DateField('Date of Birth', null=True)
+    gender = models.CharField('Gender', max_length=1)
 
     User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
+    def __unicode__(self):
+        return self.user.username
+
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile, created = UserProfile.objects.get_or_create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)
 
 
 class Foo(models.Model):
