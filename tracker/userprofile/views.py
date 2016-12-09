@@ -5,7 +5,7 @@ from .forms import UserProfileForm
 from django.contrib.auth.decorators import login_required
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
-from .models import *
+from .models import UserProfile
 
 @login_required
 def user_profile(request):
@@ -20,15 +20,14 @@ def user_profile(request):
 
     else:
 
-        profile_obj = UserProfile.objects.get(user=form.user)
+        profile_obj = UserProfile.objects.get(user=request.user)
         weight = profile_obj.weight
         height = profile_obj.height
-        bmi = round(weight / (height * height), 2)
-        args = {}
-        args.update(csrf(request))
+        height_squared = pow(height, 2)
+        bmi = round(request, weight / height_squared)
 
-        args['bmi'] = bmi
-        return render('profile.html', args)
+
+        return render('profile.html', {'bmi': bmi})
 
 
 def profile_update(request):
