@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import (render_to_response, render)
 from .forms import FoodSearchForm, MyRegistrationForm
 from userprofile.forms import UserProfileForm
@@ -75,7 +76,7 @@ def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
 
-@login_required()
+
 def register_user(request):
     if request.method == 'POST':
         user_form = MyRegistrationForm(instance=request.user, data=request.POST)
@@ -106,12 +107,10 @@ def register_user(request):
                                              height=height, weight=weight)
             profile.save()
 
-            new_user = authenticate(username=user_form.cleaned_data['username'],
-                                    password=user_form.cleaned_data['password'],
-                                    )
-            login(request, new_user)
+            new_user = authenticate(username=user_form.cleaned_data['username'])
 
-            #return HttpResponseRedirect(reverse('health_tracker:main'))
+            login(request)
+
 
             return HttpResponseRedirect('/accounts/register_success')
 

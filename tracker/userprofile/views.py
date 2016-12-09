@@ -19,15 +19,16 @@ def user_profile(request):
         return HttpResponseRedirect('/accounts/profile_update')
 
     else:
+        user = request.user
+        profile = UserProfile.objects.get(user=user)
+        form = UserProfileForm(instance=profile)
 
-        profile_obj = UserProfile.objects.get(user=request.user)
-        weight = profile_obj.weight
-        height = profile_obj.height
-        height_squared = pow(height, 2)
-        bmi = round(request, weight / height_squared)
+        args = {}
+        args.update(csrf(request))
 
+        args['form'] = form
 
-        return render('profile.html', {'bmi': bmi})
+        return render_to_response('profile.html', args)
 
 
 def profile_update(request):
