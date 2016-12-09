@@ -93,3 +93,13 @@ ENV/
 
 .idea
 *.sqlite3
+/tracker/templates/login.html
+/tracker/templates/base.html
+/tracker/templates/invalid_loggedin.html
+/tracker/templates/loggedin.html
+/tracker/templates/logout.html
+!/tracker/templates/logout.html
+!/tracker/templates/loggedin.html
+!/tracker/templates/base.html
+!/tracker/templates/login.html
+!/tracker/templates/invalid_loggedin.html
