@@ -34,3 +34,12 @@ def user_profile(request):
 def profile_update(request):
     return render_to_response('profile_update.html')
 
+
+def create_profile(sender, instance, created, *args, **kwargs):
+    # ignore if this is an existing User
+    if not created:
+        return
+    UserProfile.objects.create(user=instance)
+
+
+post_save.connect(create_profile, sender=User)

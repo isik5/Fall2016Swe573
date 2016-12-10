@@ -80,7 +80,7 @@ def logout(request):
 def register_user(request):
     if request.method == 'POST':
         user_form = MyRegistrationForm(instance=request.user, data=request.POST)
-        profile_form = UserProfileForm(instance=request.user.profile, data=request.POST,files=request.FILES)
+        profile_form = UserProfileForm(instance=request.user.profile, data=request.POST, files=request.FILES)
         # Check if forms are valid
         if user_form.is_valid() and profile_form.is_valid():
             user_info = user_form.cleaned_data
@@ -103,14 +103,13 @@ def register_user(request):
             user.save()
 
             profile = UserProfile.objects.create(user=user,
-                                             born=born, gender=gender,
-                                             height=height, weight=weight)
+                                                 born=born, gender=gender,
+                                                 height=height, weight=weight)
             profile.save()
 
             new_user = authenticate(username=user_form.cleaned_data['username'])
 
             login(request)
-
 
             return HttpResponseRedirect('/accounts/register_success')
 
@@ -128,4 +127,3 @@ def register_user(request):
 
 def register_success(request):
     return render_to_response('register_success.html')
-
