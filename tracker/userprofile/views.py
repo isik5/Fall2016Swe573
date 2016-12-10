@@ -1,4 +1,4 @@
-from django.shortcuts import (render_to_response, render)
+from django.shortcuts import (render_to_response)
 from django.http import HttpResponseRedirect
 from django.template.context_processors import csrf
 from .forms import UserProfileForm
@@ -7,28 +7,26 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from .models import UserProfile
 
+
 @login_required
 def user_profile(request):
     if request.method == 'POST':
         form = UserProfileForm(request.POST, instance=request.user.profile)
-        form.user = request.user
-
         if form.is_valid():
             form.save()
-
-        return HttpResponseRedirect('/accounts/profile_update')
+            return HttpResponseRedirect('/accounts/profile_update')
 
     else:
-        user = request.user
-        profile = UserProfile.objects.get(user=user)
-        form = UserProfileForm(instance=profile)
+       user = request.user
+       profile = user.profile
+       form = UserProfileForm(instance=profile)
 
-        args = {}
-        args.update(csrf(request))
+    args = {}
+    args.update(csrf(request))
 
-        args['form'] = form
+    args['form'] = form
 
-        return render_to_response('profile.html', args)
+    return render_to_response('profile.html', args)
 
 
 def profile_update(request):
@@ -39,7 +37,7 @@ def create_profile(sender, instance, created, *args, **kwargs):
     # ignore if this is an existing User
     if not created:
         return
-    UserProfile.objects.create(user=instance)
+    UserProfile.objects.get_or_create(user=instance)
 
 
 post_save.connect(create_profile, sender=User)

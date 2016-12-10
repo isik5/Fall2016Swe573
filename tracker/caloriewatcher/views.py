@@ -83,33 +83,8 @@ def register_user(request):
         profile_form = UserProfileForm(instance=request.user.profile, data=request.POST, files=request.FILES)
         # Check if forms are valid
         if user_form.is_valid() and profile_form.is_valid():
-            user_info = user_form.cleaned_data
-            profile_info = profile_form.cleaned_data
-            born = profile_info['born']
-            gender = profile_info['gender']
-            height = profile_info['height']
-            weight = profile_info['weight']
-
-            username = user_info['username']
-            email = user_info['email']
-            password = user_info['password1']
-
-            user = User.objects.create_user(
-                username=username,
-                email=email,
-                password=password)
-            user.save()
-            user.set_password(password)
-            user.save()
-
-            profile = UserProfile.objects.create(user=user,
-                                                 born=born, gender=gender,
-                                                 height=height, weight=weight)
-            profile.save()
-
-            new_user = authenticate(username=user_form.cleaned_data['username'])
-
-            login(request)
+            user_form.save()
+            profile_form.save()
 
             return HttpResponseRedirect('/accounts/register_success')
 

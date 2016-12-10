@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.conf import settings
+from django.db.models.signals import pre_save, post_save
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="profile")
@@ -14,7 +16,7 @@ class UserProfile(models.Model):
     gender = models.CharField('Gender', max_length=1)
     bmi = models.DecimalField('BMI', blank=True, null=True, max_digits=3, decimal_places=3)
 
-    User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+    #User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
     def __unicode__(self):
         return self.user.username
