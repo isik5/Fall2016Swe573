@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% block title %}
-        <title>CalorieWatcher</title>
-    {% endblock %}
-    {% block css %}
-
-    {% endblock %}
-</head>
-<body>
-    {% block content %}
-        {{ welcome_text }}
-    {% endblock %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block page_header %}Dashboard{% endblock %}
+{% block content %}
+  <h2>Hi {{full_name}} gene ayi gibi yemissin!</h2>
+{% endblock %}

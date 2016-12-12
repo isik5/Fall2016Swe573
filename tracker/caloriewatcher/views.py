@@ -1,30 +1,49 @@
-from django.contrib.auth import authenticate
+from django.db.models import Count
 from django.shortcuts import (render_to_response, render)
-from .forms import FoodSearchForm, MyRegistrationForm
+from django.utils.datetime_safe import datetime
+from caloriewatcher.exercise_api import Exercises
+from caloriewatcher.models import Food, Exercise
+from .forms import FoodSearchForm, MyRegistrationForm, AddFoodForm, \
+    ExcSearchForm
 from userprofile.forms import UserProfileForm
 from caloriewatcher import fcd_api
 from django.http import HttpResponseRedirect
 from django.contrib import auth
-from django.contrib.auth.views import logout
 from django.template.context_processors import csrf
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .models import *
 from userprofile.models import UserProfile
 
 
 def home(request):
-    ctx = {"welcome_text": "conim benim hosgelmissen"}
-    return render_to_response('index.html', ctx)
+    return render_to_response('index.html',
+                                {'full_name': request.user.username})
 
 
+@login_required
 def diary(request):
-    ctx = {"food_list": ["buryan kebap", "gavudagi salatasi"]}
+    day = request.GET.get('date', datetime.today())
+    ctx = dict()
+    ctx['day'] = datetime.strptime(day, '%m/%d/%Y')
+    ctx['all_food'] = Food.objects.filter(user=request.user, date_consumed=ctx['day'])
+
+    ctx['all_exercises'] = Exercise.objects.filter(user=request.user, date_created=ctx['day'])
+
+    ctx['summary'] = {
+        'get_daily_consumed': sum(i.get_food_calorie for i in ctx['all_food']),
+        'get_daily_burned': sum(i.get_total_mets for i in ctx['all_exercises']),
+    }
+    profile = UserProfile.objects.get(user=request.user)
+    ctx['summary']['left'] = int(
+        profile.get_bmr() - ctx['summary']['get_daily_consumed'] + ctx['summary']['get_daily_burned'])
+    ctx['summary']['bmr'] = int(profile.get_bmr())
+
     return render_to_response('diary.html', ctx)
 
-
+@login_required
 def food_search(request):
     ctx = {}
+    todays_food = Food.objects.filter(date_consumed=datetime.today(), user=request.user)
+    ctx['todays_food'] = todays_food
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = FoodSearchForm(request.POST)
@@ -45,6 +64,62 @@ def food_search(request):
     return render(request, 'food_search.html', ctx)
 
 
+@login_required
+def add_food(request):
+    ndbnos = request.POST.getlist('add-ndbno')
+    if len(ndbnos) > 0:
+        foods = [fcd_api.get_reports(no) for no in ndbnos]
+        food_with_server = [{"food": food, "serve": fcd_api.get_measures(food)} for food in foods]
+        c = {'foods': food_with_server}
+        c.update(csrf(request))
+        return render_to_response('diary.html', c)
+    else:
+        food_form = AddFoodForm(request.POST)
+        if food_form.is_valid():
+            food_form.instance.user = request.user
+            food_form.instance.date_consumed = datetime.today()
+            food = food_form.save()
+        return HttpResponseRedirect('/food-search/')
+
+
+@login_required
+def exc_search(request):
+    ctx = {}
+    todays_exc = Exercise.objects.filter(date_created=datetime.today(),
+                                      user=request.user)
+    ctx['todays_exc'] = todays_exc
+    if request.method == 'POST':
+        kw = request.POST.get('kw', None)
+        ex_ids = request.POST.getlist('add-exc', None)
+        excs = Exercises()
+        if kw:
+            form = ExcSearchForm(request.POST)
+            ctx['form'] = form
+            if form.is_valid():
+                ctx["excs"] = excs.search_exercise(kw)
+        if ex_ids:
+            if len(ex_ids) > 0:
+                rp = request.POST
+                exercises = []
+                for e in ex_ids:
+                    min = (float(rp.get("min-{}".format(e))))
+                    if min > 0:
+                        exercises.append(
+                            Exercise(
+                                minute=min,
+                                user=request.user,
+                                date_created = datetime.today(),
+                                exercise=e
+                            )
+                        )
+                if len(exercises) > 0:
+                    Exercise.objects.bulk_create(exercises)
+                    return HttpResponseRedirect('/exercise-search')
+    else:
+        ctx['form'] = ExcSearchForm()
+    return render(request, 'exercise_search.html', ctx)
+
+
 def login(request):
     c = {}
     c.update(csrf(request))
@@ -58,7 +133,7 @@ def auth_view(request):
 
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/accounts/loggedin')
+        return HttpResponseRedirect('/')
     else:
         return HttpResponseRedirect('/accounts/invalid')
 
@@ -72,6 +147,7 @@ def invalid_login(request):
     return render_to_response('invalid_loggedin.html')
 
 
+@login_required
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
@@ -79,18 +155,19 @@ def logout(request):
 
 def register_user(request):
     if request.method == 'POST':
-        user_form = MyRegistrationForm(instance=request.user, data=request.POST)
-        profile_form = UserProfileForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+        user_form = MyRegistrationForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST, files=request.FILES)
         # Check if forms are valid
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
+            user = user_form.save()
+            profile_form.instance.user = user
             profile_form.save()
 
             return HttpResponseRedirect('/accounts/register_success')
 
     else:
-        user_form = MyRegistrationForm(instance=request.user)
-        profile_form = UserProfileForm(instance=request.user.profile)
+        user_form = MyRegistrationForm()
+        profile_form = UserProfileForm()
     args = {}
     args.update(csrf(request))
 

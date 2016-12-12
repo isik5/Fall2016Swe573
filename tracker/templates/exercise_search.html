@@ -1,0 +1,79 @@
+{% extends "index.html" %}
+{% block title %}
+    CalorieWatcher Exercise Search
+{% endblock %}
+{% block css %}
+    {{ block.super }}
+{% endblock %}
+{% block page_header %}Exercise Search{% endblock %}
+{% block content %}
+
+    <table class="table table-bordered">Exercise you did today
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Exercise</th>
+            <th>METS</th>
+            <th>Minute</th>
+            <th>Total Calorie</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for f in todays_exc %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ f.get_exercise.Description }}</td>
+                <td>{{ f.get_exercise.METS }}</td>
+                <td>{{ f.minute }}</td>
+                <td>{{ f.get_total_mets }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    <h3> Search And Add Exercises to Your Diary</h3>
+    <form class="form-inline" action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">submit</button>
+    </form>
+    <hr>
+    {% if excs %}
+        <div>
+            <p>Number of results <span><b>{{ excs|length }}</b></span>
+            </p>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>METS</th>
+                    <th>Code</th>
+                    <th>Minutes</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% for f in excs %}
+                        <tr>
+                            <td><input type="checkbox" name="add-exc"
+                                       value="{{ f.id }}"></td>
+                            <td>{{ f.Description }}</td>
+                            <td>{{ f.METS }}</td>
+                            <td>{{ f.Code }}</td>
+                            <td><input type="number" name="min-{{ f.id }}"></td>
+                        </tr>
+                        {% if forloop.last %}
+                            <button class="btn btn-primary" type="submit">Add to
+                                my diary
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </form>
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

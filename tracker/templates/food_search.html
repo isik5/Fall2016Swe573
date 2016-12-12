@@ -5,8 +5,32 @@
 {% block css %}
     {{ block.super }}
 {% endblock %}
+{% block page_header %}Food Search{% endblock %}
 {% block content %}
-    <form action="" method="post">
+
+    <table class="table table-bordered">Foods you eat today
+        <thead>
+        <tr>
+            <th>food</th>
+            <th>unit</th>
+            <th>serve</th>
+            <th>calorie [kcal]</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for f in todays_food %}
+            <tr>
+                <td>{{ f.get_food.name }}</td>
+                <td>{{ f.unit }}</td>
+                <td>{{ f.serve }}</td>
+                <td>{{ f.get_food_calorie }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <form class="form-inline" action="" method="post">
         {% csrf_token %}
         {{ form }}
         <button type="submit">submit</button>
@@ -14,23 +38,33 @@
     <hr>
     {% if food_search_results %}
         <div>
-            <p>Number of results <span><b>{{ food_search_results.list.sr }}</b></span></p>
-            <table>
+            <p>Number of results <span><b>{{ food_search_results.list.sr }}</b></span>
+            </p>
+            <table class="table table-bordered">
                 <thead>
-                    <tr>
-                        <th><input type="checkbox"></th>
-                        <th>name</th>
-                        <th>group</th>
-                    </tr>
+                <tr>
+                    <th></th>
+                    <th>name</th>
+                    <th>group</th>
+                </tr>
                 </thead>
                 <tbody>
+                <form action="{% url "add_food" %}" method="post">
+                    {% csrf_token %}
                     {% for f in food_search_results.list.item %}
                         <tr>
-                            <td><input type="checkbox"></td>
+                            <td><input type="checkbox" name="add-ndbno"
+                                       value="{{ f.ndbno }}"></td>
                             <td>{{ f.name }}</td>
                             <td>{{ f.group }}</td>
                         </tr>
+                        {% if forloop.last %}
+                            <button class="btn btn-primary" type="submit">Add to
+                                my diary
+                            </button>
+                        {% endif %}
                     {% endfor %}
+                </form>
                 </tbody>
             </table>
         </div>

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}
+    CalorieWatcher Add Food
+{% endblock %}
+{% block css %}
+    {{ block.super }}
+{% endblock %}
+{% block page_header %}Add Foods to My Diary{% endblock %}
+{% block content %}
+    {% if foods %}
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>food</th>
+                    <th>serve</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form action="{% url "add_food" %}" method="post">
+                    {% csrf_token %}
+                    {% for f in foods %}
+                        <input type="hidden" name="ndbno" value="{{ f.food.report.food.ndbno }}">
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <p style="font-size: 12px;">{{ f.food.report.food.name }}
+                                    - {{ f.food.report.food.ndbno }}</p>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>value</th>
+                                        <th>unit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for nut in f.food.report.food.nutrients %}
+
+                                        <tr>
+                                            <td>{{ nut.name }}</td>
+                                            <td>{{ nut.value }}</td>
+                                            <td>{{ nut.unit }}</td>
+                                        </tr>
+
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <select name="unit" id="unit">
+                                    {% for serve in f.serve %}
+                                        <option value="{{ serve }}">{{ serve }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input class="input-sm" type="number"
+                                       name="serve">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <button class="btn btn-primary" type="submit">Add to my
+                            diary
+                        </button>
+                    </tr>
+                </form>
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

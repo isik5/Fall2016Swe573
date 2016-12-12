@@ -1,15 +1,96 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 {% block title %}
-    <title>CalorieWatcher Diary</title>
+    CalorieWatcher Diary
 {% endblock %}
 {% block css %}
     {{ block.super }}
 {% endblock %}
+{% block page_header %}My Diary{% endblock %}
 {% block content %}
+    <h3></h3><a href="{% url "add_food" %}">Click here to add food</a></h3>
+
+
     {{ block.super }}
-    <ol>
-    {% for food in food_list %}
-        <li>{{ food }}</li>
-    {% endfor %}
-    </ol>
+    <div class="col-md-12">
+        <form action="" method="get">
+            <div class="form-group">
+                <input type="date" name="date"
+                       class="form-control datepicker col-md-3"
+                       value="{{ day }}">
+                <button class="btn btn-primary" type="submit">Show Date</button>
+            </div>
+            </form>
+    </div>
+    <div class="col-md-6">
+        <table class="table table-bordered">Foods you eat today
+            <thead>
+            <tr>
+                <th>food</th>
+                <th>unit</th>
+                <th>serve</th>
+                <th>calorie [kcal]</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for f in all_food %}
+                <tr>
+                    <td>{{ f.get_food.name }}</td>
+                    <td>{{ f.unit }}</td>
+                    <td>{{ f.serve }}</td>
+                    <td>{{ f.get_food_calorie }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+
+        <table class="table table-bordered">Exercise you did today
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Exercise</th>
+                <th>METS</th>
+                <th>Minute</th>
+                <th>Total Calorie</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for e in all_exercises %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ e.get_exercise.Description }}</td>
+                    <td>{{ e.get_exercise.METS }}</td>
+                    <td>{{ e.minute }}</td>
+                    <td>{{ e.get_total_mets }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <table class="table table-bordered">Calories Summary
+            <thead>
+            <tr>
+                <th>Consumed</th>
+                <th>Burned</th>
+                <th>#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ summary.get_daily_consumed }}</td>
+                <td>{{ summary.get_daily_burned }}</td>
+                <td>{{ summary.left }} remains from {{ summary.bmr }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker();
+        });
+    </script>
 {% endblock %}

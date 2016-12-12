@@ -1,9 +1,15 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.core.exceptions import ObjectDoesNotExist
+from .models import Food
 
 class FoodSearchForm(forms.Form):
+    kw = forms.CharField(
+        max_length=24,
+
+    )
+
+class ExcSearchForm(forms.Form):
     kw = forms.CharField(
         max_length=24,
     )
@@ -19,14 +25,8 @@ class MyRegistrationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2', 'gender', 'born', 'height', 'weight')
 
-    def save(self, commit=True):
-        user = super(MyRegistrationForm, self).save(commit=False)
-        #user.email = self.cleaned_data['email']
-        # user.set_password(self.cleaned_data['password1'])
-        user.born = self.cleaned_data['born']
-        if commit:
-            user.save()
-
-        return user
-
+class AddFoodForm(forms.ModelForm):
+    class Meta:
+        model = Food
+        fields = ('ndbno', 'unit', 'serve')
 

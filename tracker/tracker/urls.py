@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import caloriewatcher.views
 import userprofile.views
 from django.conf import settings
@@ -26,6 +25,8 @@ urlpatterns = [
     url(r'^$', caloriewatcher.views.home, name='home'),
     url(r'^diary/$', caloriewatcher.views.diary, name='diary'),
     url(r'^food-search/$', caloriewatcher.views.food_search, name='food_search'),
+    url(r'^add_food/$', caloriewatcher.views.add_food, name='add_food'),
+    url(r'^exercise-search/$', caloriewatcher.views.exc_search, name='exc_search'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login-Register/$', caloriewatcher.views.login, name='login'),
     url(r'^profile/$', userprofile.views.user_profile, name='user_profile'),

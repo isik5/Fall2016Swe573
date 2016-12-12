@@ -14,4 +14,11 @@ def get_foods(kw):
 def get_reports(ndbno):
     url = FCD_API_URL.format("reports", FCD_API_KEY)
     resp = requests.get(url, {"type": "f", "ndbno": ndbno})
+    if not resp.ok:
+        resp = requests.get(url, {"type": "f", "ndbno": int(ndbno)})
     return resp.json()
+
+
+def get_measures(food):
+    nutrients = food['report']['food']['nutrients']
+    return set(m["label"] for n in nutrients for m in n["measures"])
