@@ -7,7 +7,7 @@
 {% endblock %}
 {% block page_header %}My Diary{% endblock %}
 {% block content %}
-    <h3></h3><a href="{% url "add_food" %}">Click here to add food</a></h3>
+
 
 
     {{ block.super }}
@@ -72,7 +72,7 @@
         <table class="table table-bordered">Calories Summary
             <thead>
             <tr>
-                <th>Consumed</th>
+                <th>Consumed</th><p style="color:red">
                 <th>Burned</th>
                 <th>#</th>
             </tr>
@@ -80,7 +80,7 @@
             <tbody>
             <tr>
                 <td>{{ summary.get_daily_consumed }}</td>
-                <td>{{ summary.get_daily_burned }}</td>
+                <td>{{ summary.get_daily_burned }}</td><p style="color:red">
                 <td>{{ summary.left }} remains from {{ summary.bmr }}</td>
             </tr>
             </tbody>

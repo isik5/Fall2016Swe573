@@ -72,14 +72,14 @@ def add_food(request):
         food_with_server = [{"food": food, "serve": fcd_api.get_measures(food)} for food in foods]
         c = {'foods': food_with_server}
         c.update(csrf(request))
-        return render_to_response('diary.html', c)
+        return render_to_response('add_food.html', c)
     else:
         food_form = AddFoodForm(request.POST)
         if food_form.is_valid():
             food_form.instance.user = request.user
             food_form.instance.date_consumed = datetime.today()
             food = food_form.save()
-        return HttpResponseRedirect('/food-search/')
+        return HttpResponseRedirect('/diary/')
 
 
 @login_required
@@ -114,7 +114,7 @@ def exc_search(request):
                         )
                 if len(exercises) > 0:
                     Exercise.objects.bulk_create(exercises)
-                    return HttpResponseRedirect('/exercise-search')
+                    return HttpResponseRedirect('/diary')
     else:
         ctx['form'] = ExcSearchForm()
     return render(request, 'exercise_search.html', ctx)

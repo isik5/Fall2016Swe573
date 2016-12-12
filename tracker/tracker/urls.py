@@ -18,6 +18,7 @@ from django.contrib import admin
 import caloriewatcher.views
 import userprofile.views
 from django.conf import settings
+from django.conf.urls.static import static
 
 
 

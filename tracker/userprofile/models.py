@@ -5,7 +5,7 @@ from datetime import datetime
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="profile")
-    height = models.FloatField('Height in cm', null=True)
+    height = models.FloatField('Height in cm',  null=True)
     weight = models.IntegerField('Weight in kg', null=True)
     born = models.DateField('Date of Birth', null=True)
     gender = models.CharField('Gender', max_length=1)
