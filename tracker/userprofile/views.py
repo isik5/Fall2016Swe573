@@ -12,7 +12,7 @@ def user_profile(request):
         form = UserProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/accounts/profile_update')
+            return HttpResponseRedirect('/accounts/profile')
 
     else:
        user = request.user
@@ -30,7 +30,7 @@ def user_profile(request):
 
     return render_to_response('profile.html', args)
 
-@login_required
+
 def profile_update(request):
     return render_to_response('profile_update.html')
 
