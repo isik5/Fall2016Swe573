@@ -13,7 +13,7 @@ from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from userprofile.models import UserProfile
 
-
+@login_required
 def home(request):
     return render_to_response('index.html',
                                 {'full_name': request.user.username})
@@ -23,7 +23,9 @@ def home(request):
 def diary(request):
     day = request.GET.get('date', datetime.today())
     ctx = dict()
-    ctx['day'] = datetime.strptime(day, '%m/%d/%Y')
+    if type(day) == str:
+        day = datetime.strptime(day, '%m/%d/%Y')
+    ctx['day'] = datetime.date(day)
     ctx['all_food'] = Food.objects.filter(user=request.user, date_consumed=ctx['day'])
 
     ctx['all_exercises'] = Exercise.objects.filter(user=request.user, date_created=ctx['day'])
@@ -36,6 +38,8 @@ def diary(request):
     ctx['summary']['left'] = int(
         profile.get_bmr() - ctx['summary']['get_daily_consumed'] + ctx['summary']['get_daily_burned'])
     ctx['summary']['bmr'] = int(profile.get_bmr())
+
+    ctx['day'] = ctx['day'].strftime('%m/%d/%Y')
 
     return render_to_response('diary.html', ctx)
 

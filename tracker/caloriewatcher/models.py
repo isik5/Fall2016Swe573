@@ -6,7 +6,7 @@ from .exercise_api import Exercises
 class Exercise(models.Model):
     user = models.ForeignKey(User)
     exercise = models.IntegerField('exercise')
-    date_created = models.DateTimeField('date created', auto_now_add=True)
+    date_created = models.DateField('date created', auto_now_add=True)
     minute = models.IntegerField('minute')
 
     @property
@@ -22,7 +22,7 @@ class Exercise(models.Model):
 
 class Food(models.Model):
     user = models.ForeignKey(User)
-    date_consumed = models.DateTimeField('date consumed', auto_now_add=True)
+    date_consumed = models.DateField('date consumed', auto_now_add=True)
     ndbno = models.CharField('ndbno', max_length=512)
     unit = models.CharField('unit', max_length=512)
     serve = models.IntegerField('serve')

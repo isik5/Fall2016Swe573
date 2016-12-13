@@ -1,6 +1,8 @@
 from django import forms
 from userprofile.models import UserProfile
+from django.contrib.auth.decorators import login_required
 
+@login_required
 class UserProfileForm(forms.ModelForm):
 
     class Meta:

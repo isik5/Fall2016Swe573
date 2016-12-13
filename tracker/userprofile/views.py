@@ -30,7 +30,7 @@ def user_profile(request):
 
     return render_to_response('profile.html', args)
 
-
+@login_required
 def profile_update(request):
     return render_to_response('profile_update.html')
 
