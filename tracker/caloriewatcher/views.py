@@ -13,7 +13,7 @@ from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from userprofile.models import UserProfile
 
-@login_required
+
 def home(request):
     return render_to_response('index.html',
                                 {'full_name': request.user.username})
