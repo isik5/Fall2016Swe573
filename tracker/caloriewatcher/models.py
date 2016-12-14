@@ -3,6 +3,7 @@ from django.db import models
 from .fcd_api import get_reports
 from .exercise_api import Exercises
 
+
 class Exercise(models.Model):
     user = models.ForeignKey(User)
     exercise = models.IntegerField('exercise')
@@ -38,3 +39,8 @@ class Food(models.Model):
         for m in food['report']['food']['nutrients']:
             if m['unit'] == 'kcal':
                 return int(m['value']) * self.serve
+
+
+class Gender(models.Model):
+    GENDER_CHOICES = (('M', 'Male'), ('F', 'Female'))
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)

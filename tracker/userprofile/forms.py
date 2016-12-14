@@ -5,7 +5,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ('height', 'weight', 'born', 'gender', 'bmi', 'bmr')
+        fields = ('height', 'weight', 'date_of_birth', 'gender', 'bmi', 'bmr')
 
     def clean_bmi(self):
         bmi = self.cleaned_data['bmi']

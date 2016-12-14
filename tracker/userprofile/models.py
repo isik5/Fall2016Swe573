@@ -7,8 +7,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="profile")
     height = models.FloatField('Height in cm',  null=True)
     weight = models.IntegerField('Weight in kg', null=True)
-    born = models.DateField('Date of Birth', null=True)
-    gender = models.CharField('Gender', max_length=1)
+    date_of_birth = models.DateField('Date of Birth', null=True)
+    gender = models.CharField('Gender', max_length=1, null=False)
     bmi = models.FloatField('BMI', blank=True, null=True)
     bmr = models.FloatField('BMR', blank=True, null=True)
 
@@ -59,16 +59,11 @@ class UserProfile(models.Model):
         bmr_defaults = ((655, 9.6, 1.8, 4.7), (65, 13.7, 5, 6.8))
         # index_of_bmr as iob
         iob = bmr_defaults[0] if self.gender == "F" else bmr_defaults[1]
-        age = datetime.now().year - self.born.year
+        age = datetime.now().year - self.date_of_birth.year
         return iob[0] + (iob[1] * self.weight) + (iob[2] * self.height) - (iob[3] * age)
 
 
-class Foo(models.Model):
-    GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-    )
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='M', null=True)
+
 
 
 

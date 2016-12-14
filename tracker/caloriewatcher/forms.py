@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Food
+from .models import Food, Gender
+
 
 class FoodSearchForm(forms.Form):
     kw = forms.CharField(
@@ -16,14 +17,17 @@ class ExcSearchForm(forms.Form):
 
 class MyRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    gender = forms.CharField(required=True)
-    born = forms.DateField(required=False)
-    height = forms.FloatField(required=False)
-    weight = forms.IntegerField(required=False)
+    gender = forms.CharField(widget=forms.RadioSelect(choices=Gender.GENDER_CHOICES), required=True)
+    date_of_birth = forms.DateField(required=True)
+    height = forms.FloatField(required=True)
+    weight = forms.IntegerField(required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'gender', 'born', 'height', 'weight')
+        fields = ('username', 'email', 'password1', 'password2', 'gender', 'date_of_birth', 'height', 'weight')
+
+
+
 
 class AddFoodForm(forms.ModelForm):
     class Meta:
