@@ -3,69 +3,18 @@
 {% block content %}
     <div class="container">
 
-          {% for field in form %}
-            {{ field.error }}
+  <h2>Register</h2>
 
-        {% endfor %}
+  {% for field in form %}
+    {{field.error}}
 
-        <form action="/accounts/register/" method="post">{% csrf_token %}
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label for="{{ user_form.username.id_for_label }}">{{ user_form.username.label }}</label>
-                    <input type="text" class="form-control"
-                           name="{{ user_form.username.html_name }}"
-                           id="{{ user_form.username.id_for_label }}"
-                           placeholder="{{ user_form.username.help_text }}">
-                </div>
-                <div class="form-group">
-                    <label for="{{ user_form.email.id_for_label }}">{{ user_form.email.label }}</label>
-                    <input type="email" class="form-control"
-                           name="{{ user_form.email.html_name }}"
-                           id="{{ user_form.email.id_for_label }}"
-                           placeholder="{{ user_form.email.help_text }}">
-                </div>
-                <div class="form-group">
-                    <label for="{{ user_form.password1.id_for_label }}">{{ user_form.password1.label }}</label>
-                    <input type="password" class="form-control"
-                           name="{{ user_form.password1.html_name }}"
-                           id="{{ user_form.password1.id_for_label }}"
-                           placeholder="{{ user_form.password1.help_text }}">
-                </div>
-                <div class="form-group">
-                    <label for="{{ user_form.password2.id_for_label }}">{{ user_form.password2.label }}</label>
-                    <input type="password" class="form-control"
-                           name="{{ user_form.password2.html_name }}"
-                           id="{{ user_form.password2.id_for_label }}"
-                           placeholder="{{ user_form.password2.help_text }}">
-                </div>
-                <div class="form-group">
-                    <label for="{{ user_form.gender.id_for_label }}">{{ user_form.gender.label }}</label>
-                    {{ user_form.gender }}
-                </div>
-                <div class="form-group">
-                    <label for="{{ user_form.born.id_for_label }}">{{ user_form.born.label }}</label>
-                    <input type="date" class="form-control"
-                           name="{{ user_form.born.html_name }}"
-                           id="{{ user_form.born.id_for_label }}"
-                           placeholder="{{ user_form.born.help_text }}">
-                </div>
-                <div class="form-group">
-                    <label for="{{ user_form.height.id_for_label }}">{{ user_form.height.label }}</label>
-                    <input type="number" class="form-control"
-                           name="{{ user_form.height.html_name }}"
-                           id="{{ user_form.height.id_for_label }}"
-                           placeholder="{{ user_form.height.help_text }}">
-                </div>
-                <div class="form-group">
-                    <label for="{{ user_form.weight.id_for_label }}">{{ user_form.weight.label }}</label>
-                    <input type="number" class="form-control"
-                           name="{{ user_form.weight.html_name }}"
-                           id="{{ user_form.weight.id_for_label }}"
-                           placeholder="{{ user_form.weight.help_text }}">
-                </div>
-                <button class="btn btn-primary">Register</button>
-            </div>
+  {% endfor %}
 
-        </form>
-    </div>
+  <form action="/accounts/register/" method="post">{% csrf_token %}
+  {{user_form}}
+
+  <input type="submit" value="Register" />
+
+  </form>
+</div>
 {% endblock %}
