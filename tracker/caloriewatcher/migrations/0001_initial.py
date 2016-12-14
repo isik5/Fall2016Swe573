@@ -23,15 +23,18 @@ class Migration(migrations.Migration):
                 ('date_created', models.DateTimeField(auto_created=True, verbose_name='date created')),
                 ('exercise', models.CharField(max_length=512, verbose_name='exercise')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('minute', models.CharField(max_length=512, verbose_name='minute')),
             ],
         ),
         migrations.CreateModel(
             name='Food',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_created', models.DateTimeField(auto_created=True, verbose_name='date created')),
-                ('food', models.CharField(max_length=512, verbose_name='food')),
+                ('date_consumed' , models.DateTimeField('date consumed', auto_now_add=True)),
+                ('ndbno' , models.CharField('ndbno', max_length=512)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('serve' , models.IntegerField('serve')),
+                ('unit' , models.CharField('unit', max_length=512)),
             ],
         ),
     ]

@@ -16,13 +16,13 @@ def user_profile(request):
             print("profile successfully updated!")
 
     else:
-       user = request.user
-       profile = user.profile
+        user = request.user
+        profile = user.profile
 
-       profile.bmi = profile.get_bmi()
-       profile.bmr = profile.get_bmr()
+        profile.bmi = profile.get_bmi()
+        profile.bmr = profile.get_bmr()
 
-       form = UserProfileForm(instance=profile)
+        form = UserProfileForm(instance=profile)
 
     args = {}
     args.update(csrf(request))
@@ -34,5 +34,3 @@ def user_profile(request):
 
 def profile_update(request):
     return render_to_response('profile_update.html')
-
-
