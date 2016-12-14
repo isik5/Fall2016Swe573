@@ -31,6 +31,8 @@ class Migration(migrations.Migration):
                 ('weight', models.FloatField(verbose_name='user weight in kg')),
                 ('born', models.DateTimeField(verbose_name='mm/yyyy')),
                 ('gender', models.CharField(max_length=1, verbose_name='user gender in 1 letter')),
+                ('bmi', models.FloatField(blank=True, null=True, verbose_name='BMI')),
+                ('bmr', models.FloatField(blank=True, null=True, verbose_name='BMR')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
