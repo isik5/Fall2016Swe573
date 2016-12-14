@@ -24,7 +24,7 @@ def diary(request):
     day = request.GET.get('date', datetime.today())
     ctx = dict()
     if type(day) == str:
-        day = datetime.strptime(day, '%m/%d/%Y')
+        day = datetime.strptime(day, '%Y-%m-%d')
     ctx['day'] = datetime.date(day)
     ctx['all_food'] = Food.objects.filter(user=request.user, date_consumed=ctx['day'])
 
@@ -39,7 +39,7 @@ def diary(request):
         profile.get_bmr() - ctx['summary']['get_daily_consumed'] + ctx['summary']['get_daily_burned'])
     ctx['summary']['bmr'] = int(profile.get_bmr())
 
-    ctx['day'] = ctx['day'].strftime('%m/%d/%Y')
+    ctx['day'] = ctx['day'].strftime('%Y-%m-%d')
 
     return render_to_response('diary.html', ctx)
 
