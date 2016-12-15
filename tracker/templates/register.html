@@ -3,12 +3,9 @@
 {% block content %}
     <div class="container">
 
-        <h2>Register</h2>
 
-        {% for field in form %}
-            {{ field.error }}
 
-        {% endfor %}
+        }
 
         <form action="/accounts/register/" method="post">{% csrf_token %}
             <div class="col-md-6">
@@ -42,10 +39,10 @@
                 </div>
                 <div class="form-group">
                     <label for="{{ user_form.gender.id_for_label }}">{{ user_form.gender.label }}</label>
-                    {{ user_form.gender }}
+                                {{ user_form.gender }}
                 </div>
                 <div class="form-group">
-                    <label for="{{ user_form.date_of_birth.id_for_label }}">{{ user_form.born.label }}</label>
+                    <label for="{{ user_form.date_of_birth.id_for_label }}">{{ user_form.date_of_birth.label }}</label>
                     <input type="date" class="form-control"
                            name="{{ user_form.date_of_birth.html_name }}"
                            id="{{ user_form.date_of_birth.id_for_label }}"
