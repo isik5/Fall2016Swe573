@@ -17,6 +17,8 @@ class ExcSearchForm(forms.Form):
 
 class MyRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    password1 = forms.CharField(required=True)
+    password2 = forms.CharField(required=True)
     gender = forms.CharField(widget=forms.RadioSelect(choices=Gender.GENDER_CHOICES), required=True)
     date_of_birth = forms.DateField(required=True)
     height = forms.FloatField(required=True)
