@@ -20,7 +20,7 @@ def user_profile(request):
         profile = user.profile
 
         profile.bmi = profile.get_bmi()
-        profile.bmr = profile.get_bmr()
+        profile.bmr = profile.get_bmr
 
         form = UserProfileForm(instance=profile)
 
