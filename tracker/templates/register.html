@@ -5,9 +5,7 @@
 
 
 
-        }
-
-        <form action="/accounts/register/" method="post">{% csrf_token %}
+          <form action="/accounts/register/" method="post">{% csrf_token %}
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="{{ user_form.username.id_for_label }}">{{ user_form.username.label }}</label>

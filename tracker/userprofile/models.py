@@ -11,6 +11,7 @@ class UserProfile(models.Model):
     gender = models.CharField('Gender', max_length=1, null=False)
     bmi = models.FloatField('BMI', blank=True, null=True)
     bmr = models.FloatField('BMR', blank=True, null=True)
+    note = models.TextField('Notes', blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username

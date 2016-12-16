@@ -1,21 +1,42 @@
 {% extends "base.html" %}
-
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body><br>
 
-    {% if form.errors %}
-      <p class="error">Sorry, not a valid username or password</p>
-    {% endif %}
+<div class="container">
 
-    <form action="/accounts/auth/" method="post" >{% csrf_token %}"
-      <label for="username">Username:</label>
-      <input type="text" name="username" value="" id="password">
-      <label for="password">Password:</label>
-      <input type="password" name="password" value="" id="password">
+    <form action="/accounts/auth/" method="post" >{% csrf_token %}
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="username"></label>
+                    <input type="text" class="form-control"
+                           name="username"
+                           id="user"
+                           placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="password"></label>
+                    <input type="password" class="form-control"
+                           name="password"
+                           id="password"
+                           placeholder="Password">
+    <div class="checkbox">
+      <label><input type="checkbox"> Remember me</label>
+    </div><br>
+    <left><button type="submit" class="btn btn-default">Submit</button></left>
+  </form>
+</div>
 
-      <input type="submit" value="login" />
-
-    </form>
+</body>
+</html>
 
 {% endblock %}
-
-

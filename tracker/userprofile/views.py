@@ -13,7 +13,7 @@ def user_profile(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/accounts/profile')
-            print("profile successfully updated!")
+
 
     else:
         user = request.user
