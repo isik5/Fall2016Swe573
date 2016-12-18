@@ -22,3 +22,5 @@ def get_reports(ndbno):
 def get_measures(food):
     nutrients = food['report']['food']['nutrients']
     return set(m["label"] for n in nutrients for m in n["measures"])
+
+

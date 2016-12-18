@@ -12,10 +12,11 @@ from django.contrib import auth
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from userprofile.models import UserProfile
+from django.contrib.auth.decorators import user_passes_test
 
 
 def home(request):
-    return render_to_response('index.html',
+    return render_to_response('login.html',
                                 {'full_name': request.user.username})
 
 
@@ -41,7 +42,7 @@ def diary(request):
 
     ctx['day'] = ctx['day'].strftime('%Y-%m-%d')
 
-    return render_to_response('diary.html', ctx)
+    return render_to_response('diary.html', ctx, {'full_name': request.user.username})
 
 @login_required
 def food_search(request):
@@ -137,11 +138,11 @@ def auth_view(request):
 
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/accounts/loggedin')
+        return HttpResponseRedirect('/diary/')
     else:
         return HttpResponseRedirect('/accounts/invalid')
 
-
+@login_required
 def loggedin(request):
     return render_to_response('loggedin.html',
                               {'full_name': request.user.username})
@@ -183,3 +184,9 @@ def register_user(request):
 
 def register_success(request):
     return render_to_response('register_success.html')
+
+def privacy_policy(request):
+    return render_to_response('privacy_policy.htm')
+
+def license(request):
+    return render_to_response('license.html')

@@ -18,12 +18,12 @@ from django.contrib import admin
 import caloriewatcher.views
 import userprofile.views
 from django.conf import settings
-from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 
 
 urlpatterns = [
-    url(r'^$', caloriewatcher.views.home, name='home'),
+
     url(r'^diary/$', caloriewatcher.views.diary, name='diary'),
     url(r'^food-search/$', caloriewatcher.views.food_search, name='food_search'),
     url(r'^add_food/$', caloriewatcher.views.add_food, name='add_food'),
@@ -31,9 +31,11 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login-Register/$', caloriewatcher.views.login, name='login'),
     url(r'^profile/$', userprofile.views.user_profile, name='user_profile'),
-
+    url(r'^privacy/$', caloriewatcher.views.privacy_policy, name='privacy_policy'),
+    url(r'^license/$', caloriewatcher.views.license, name='license'),
 
     # user auth urls
+    url(r'^$', caloriewatcher.views.login, name='home'),
     url(r'^accounts/login/$', caloriewatcher.views.login, name='login'),
     url(r'^accounts/auth/$', caloriewatcher.views.auth_view, name='auth_view'),
     url(r'^accounts/logout/$', caloriewatcher.views.logout, name='logout'),
@@ -43,6 +45,7 @@ urlpatterns = [
     url(r'^accounts/register_success/$', caloriewatcher.views.register_success, name='register_success'),
     url(r'^accounts/profile/$', userprofile.views.user_profile, name='user_profile'),
     url(r'^accounts/profile_update/$', userprofile.views.profile_update, name='profile_update'),
+
 ]
 
 if not settings.DEBUG:

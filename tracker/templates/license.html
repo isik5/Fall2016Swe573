@@ -65,7 +65,7 @@ border: none;
 
 footer {
   position: fixed;
-  height: 7%;
+  height:7%;
   right: 0;
   bottom: 0;
   left: 0;
@@ -134,7 +134,7 @@ footer {
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/" class=""><b>Home</b></a></li>
+                        <li class="active"><a href="/" class=""><b>Home</b></a></li>
 
                         <li><a href="/diary/"><b>Diary</b></a></li>
 
@@ -148,7 +148,7 @@ footer {
                         <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Signed in as {{full_name}}<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/accounts/loggedin/">Change Password</a></li>
-                                <li class="active"><a href="/profile/">My Profile</a></li>
+                                <li><a href="/profile/">My Profile</a></li>
                                 {% if request.user.is_authenticated %}
                                <li><a href="{% url "logout" %}">Logout</a></li>
                                             {% endif %}
@@ -163,30 +163,22 @@ footer {
 {% block content %}
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ================ INICIA FORMULARIO DE License ============================================================== -->
 
+ <div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<h2>Calorie License (MIT license)</h2>
 
-    <!-- ================ INICIA FORMULARIO DE Profile  ============================================================== -->
+			<p>Copyright (c) 2013 cw.io</p>
 
+			<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
-    <h1 class="page-header" style="margin-top:-40px; margin-left: 500px">Profile</h1>
-  
-  {% for field in form %}
-    {{field.error}}
+			<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 
-  {% endfor %}
-
-
-<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-
-
-  <form action="/accounts/profile/" method="post" >{% csrf_token %}
-                  {{form.as_ul}}
-
-
- <button class="btn btn-primary">Update</button>
-
-    
-  </form>
+			<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+		</div>
+	</div>
 </div>
 
 <footer class="bs-footer" role="contentinfo">
@@ -210,6 +202,5 @@ footer {
 <script type="text/javascript">
 
     </footer>
-  
-{% endblock %}
 
+{% endblock %}

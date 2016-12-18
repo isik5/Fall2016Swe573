@@ -1,8 +1,36 @@
-{% extends "base.html" %}
+{% extends "header.html" %}
+{% block title %}
+    CalorieWatcher Home
+{% endblock %}
+
+{% block page_header %}Home{% endblock %}
 
 {% block content %}
 
   <h2>Hi {{full_name}} you are now Logged in!</h2>
   <h2><p>Click <a href="/accounts/profile/">here</a> to edit your profile.</p></h2>
 
+<footer class="bs-footer" role="contentinfo">
+  <div class="container">
+    <div class="bs-social">
+      <ul class="bs-social-buttons">
+
+        <li class="follow-btn">
+          <a href="https://twitter.com/isik5" class="twitter-follow-button" data-show-count="false">Follow @isik5</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </li>
+
+      </ul>
+    </div>
+    <p>CW.io &copy; 2016 | <a href="http://35.165.197.45/privacy_policy" target="_blank">Site Privacy policy</a> | Featured snippets are <a href="http://35.165.197.45/license">MIT license.</a> </p>
+  </div>
+<style>
+
+</style>
+<script async type="text/javascript" src="//cdn.fancybar.net/ac/fancybar.js?zoneid=1502&serve=C6ADVKE&placement=danstools" id="_fancybar_js"></script>
+
+<script type="text/javascript">
+
+    </footer>
+
 {% endblock %}
+
