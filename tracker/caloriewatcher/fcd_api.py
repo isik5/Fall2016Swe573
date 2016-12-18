@@ -2,7 +2,7 @@ from django.conf import settings
 import requests
 
 FCD_API_URL = "http://api.nal.usda.gov/ndb/{0}/?format=json&api_key={1}"
-FCD_API_KEY = settings.FCD_API_KEY
+FCD_API_KEY = gBxQKntXgGDh2Jxj4um8bBNayqIvbFGMxC1QWU6F
 
 
 def get_foods(kw):
