@@ -18,7 +18,7 @@ from django.contrib import admin
 import caloriewatcher.views
 import userprofile.views
 from django.conf import settings
-from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
 
 
 
@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^license/$', caloriewatcher.views.license, name='license'),
 
     # user auth urls
-    url(r'^$', caloriewatcher.views.login, name='home'),
+    url(r'^$', caloriewatcher.views.diary, name='home'),
     url(r'^accounts/login/$', caloriewatcher.views.login, name='login'),
     url(r'^accounts/auth/$', caloriewatcher.views.auth_view, name='auth_view'),
     url(r'^accounts/logout/$', caloriewatcher.views.logout, name='logout'),

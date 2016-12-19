@@ -15,9 +15,10 @@ from userprofile.models import UserProfile
 from django.contrib.auth.decorators import user_passes_test
 
 
+@login_required
 def home(request):
-    return render_to_response('login.html',
-                                {'full_name': request.user.username})
+    return render(request, 'diary.html',
+                  {'full_name': request.user.username})
 
 
 @login_required
@@ -42,7 +43,8 @@ def diary(request):
 
     ctx['day'] = ctx['day'].strftime('%Y-%m-%d')
 
-    return render_to_response('diary.html', ctx, {'full_name': request.user.username})
+    return render(request, 'diary.html', ctx)
+
 
 @login_required
 def food_search(request):
@@ -91,7 +93,7 @@ def add_food(request):
 def exc_search(request):
     ctx = {}
     todays_exc = Exercise.objects.filter(date_created=datetime.today(),
-                                      user=request.user)
+                                         user=request.user)
     ctx['todays_exc'] = todays_exc
     if request.method == 'POST':
         kw = request.POST.get('kw', None)
@@ -113,7 +115,7 @@ def exc_search(request):
                             Exercise(
                                 minute=min,
                                 user=request.user,
-                                date_created = datetime.today(),
+                                date_created=datetime.today(),
                                 exercise=e
                             )
                         )
@@ -138,9 +140,10 @@ def auth_view(request):
 
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/diary/')
+        return HttpResponseRedirect('/diary')
     else:
         return HttpResponseRedirect('/accounts/invalid')
+
 
 @login_required
 def loggedin(request):
@@ -152,7 +155,7 @@ def invalid_login(request):
     return render_to_response('invalid_loggedin.html')
 
 
-@login_required
+
 def logout(request):
     auth.logout(request)
     return render_to_response('logout.html')
@@ -185,8 +188,10 @@ def register_user(request):
 def register_success(request):
     return render_to_response('register_success.html')
 
+
 def privacy_policy(request):
     return render_to_response('privacy_policy.htm')
+
 
 def license(request):
     return render_to_response('license.html')

@@ -138,8 +138,6 @@ footer {
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/" class=""><b>Home</b></a></li>
 
-                        <li><a href="/diary/"><b>Diary</b></a></li>
-
                         <li><a href="/food-search/"><b>Add Food</b></a></li>
 
                         <li><a href="/exercise-search/"><b>Add Exercise</b></a></li>
@@ -151,7 +149,7 @@ footer {
                             <ul class="dropdown-menu">
                                 <li><a href="/accounts/loggedin/">Change Password</a></li>
                                 <li><a href="/profile/">My Profile</a></li>
-                                {% if request.user.is_authenticated %}
+                                {% if user.is_authenticated %}
                                <li><a href="{% url "logout" %}">Logout</a></li>
                                             {% endif %}
 
