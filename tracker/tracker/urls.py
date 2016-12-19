@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login-Register/$', caloriewatcher.views.login, name='login'),
     url(r'^profile/$', userprofile.views.user_profile, name='user_profile'),
-    url(r'^privacy/$', caloriewatcher.views.privacy_policy, name='privacy_policy'),
+    url(r'^privacy_policy/$', caloriewatcher.views.privacy_policy, name='privacy_policy'),
     url(r'^license/$', caloriewatcher.views.license, name='license'),
 
     # user auth urls
