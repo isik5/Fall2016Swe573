@@ -145,12 +145,16 @@ footer {
 
                     </ul>
                     <ul class="nav navbar-nav pull-right">
-                        <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Signed in as {{full_name}}<span class="caret"></span></a>
-                            <ul class="dropdown-menu">
+
+                                {% if user.is_authenticated %}
+                                <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as {{ request.user.username}}<span class="caret"></span></a>
+                                     <ul class="dropdown-menu">
                                 <li><a href="/accounts/loggedin/">Change Password</a></li>
                                 <li><a href="/profile/">My Profile</a></li>
-                                {% if request.user.is_authenticated %}
                                <li><a href="{% url "logout" %}">Logout</a></li>
+                                    {% else %}
+                                    <li class=" dropdown"><a href="/accounts/login/" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sign in<span class="caret"></span></a>
+
                                             {% endif %}
 
                     </ul>
